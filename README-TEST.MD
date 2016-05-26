@@ -78,7 +78,7 @@ http://tools.ietf.org/html/rfc6749#section-6
 If the authorization server issued a refresh token to the client, the client can make a refresh request to the token endpoint in order to refresh the access token.
 
 ```
-curl -v curl -v -X POST localhost:8080/tokens \
+curl -v -X POST localhost:8080/tokens \
      -H "Content-Type:application/json" \
      -d '{ "grant_type":"refresh_token","refresh_token": "6fd8d272-375a-4d8a-8d0f-43367dc8b791"}'
 ```
@@ -113,7 +113,7 @@ If the authorization server issued a access token or refresh token to the client
 
 
 ```
-curl -v curl -v -X POST localhost:8080/tokeninfo \
+curl -v -X POST localhost:8080/tokeninfo \
      -H "Content-Type:application/json" \
      -d '{ "token":"00ccd40e-72ca-4e79-a4b6-67c95e2e3f1c"}' 
 ```
