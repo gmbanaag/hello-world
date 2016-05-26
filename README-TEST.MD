@@ -53,12 +53,9 @@ The resource owner provides the client with its username and password.
 The client requests an access token from the authorization server's token endpoint by including the credentials received from the resource owner. When making the request, the client authenticates with the authorization server.
 
 ```
-curl --compressed -v localhost:8080/v1/oauth/tokens \
-	-u test_client_1:test_secret \
-	-d "grant_type=password" \
-	-d "username=test@username" \
-	-d "password=test_password" \
-	-d "scope=read_write"
+curl -v -X POST localhost:8080/tokens \
+     -H "Content-Type:application/json" \
+     -d '{ "username":"test@username","password":"test_password"}'
 ```
 
 The authorization server authenticates the client and validates the resource owner credentials, and if valid, issues an access token.
@@ -69,7 +66,6 @@ The authorization server authenticates the client and validates the resource own
 	"access_token": "00ccd40e-72ca-4e79-a4b6-67c95e2e3f1c",
 	"expires_in": 3600,
 	"token_type": "Bearer",
-	"scope": "read_write",
 	"refresh_token": "6fd8d272-375a-4d8a-8d0f-43367dc8b791"
 }
 ```
@@ -82,10 +78,9 @@ http://tools.ietf.org/html/rfc6749#section-6
 If the authorization server issued a refresh token to the client, the client can make a refresh request to the token endpoint in order to refresh the access token.
 
 ```
-curl --compressed -v localhost:8080/v1/oauth/tokens \
-	-u test_client_1:test_secret \
-	-d "grant_type=refresh_token" \
-	-d "refresh_token=6fd8d272-375a-4d8a-8d0f-43367dc8b791"
+curl -v curl -v -X POST localhost:8080/tokens \
+     -H "Content-Type:application/json" \
+     -d '{ "grant_type":"refresh_token","refresh_token": "6fd8d272-375a-4d8a-8d0f-43367dc8b791"}'
 ```
 
 The authorization server MUST:
@@ -104,7 +99,6 @@ If valid and authorized, the authorization server issues an access token.
 	"access_token": "1f962bd5-7890-435d-b619-584b6aa32e6c",
 	"expires_in": 3600,
 	"token_type": "Bearer",
-	"scope": "read_write",
 	"refresh_token": "3a6b45b8-9d29-4cba-8a1b-0093e8a2b933"
 }
 ```
@@ -117,20 +111,19 @@ https://tools.ietf.org/html/rfc7662
 
 If the authorization server issued a access token or refresh token to the client, the client can make a request to the introspect endpoint in order to learn meta-information about a token.
 
+
 ```
-curl --compressed -v localhost:8080/v1/oauth/introspect \
-	-u test_client_1:test_secret \
-	-d "token=00ccd40e-72ca-4e79-a4b6-67c95e2e3f1c" \
-	-d "token_type_hint=access_token"
+curl -v curl -v -X POST localhost:8080/tokeninfo \
+     -H "Content-Type:application/json" \
+     -d '{ "token":"00ccd40e-72ca-4e79-a4b6-67c95e2e3f1c"}' 
 ```
+
 
 The authorization server responds meta-information about a token.
 
 ```json
 {
 	"active": true,
-	"scope": "read_write",
-	"client_id": "test_client_1",
 	"username": "test@username",
 	"token_type": "Bearer",
 	"exp": 1454868090
