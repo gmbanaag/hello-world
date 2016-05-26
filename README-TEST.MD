@@ -109,7 +109,7 @@ The authorization server MAY issue a new refresh token, in which case the client
 
 https://tools.ietf.org/html/rfc7662
 
-If the authorization server issued a access token or refresh token to the client, the client can make a request to the introspect endpoint in order to learn meta-information about a token.
+If the authorization server issued a access token or refresh token to the client, the client can make a request to the tokeninfo endpoint in order to learn meta-information about a token.
 
 
 ```
